@@ -1,0 +1,89 @@
+<aetgt:getResponse xmlns:aetgt="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd"
+                   xmlns:types1="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd">
+   <types1:Item>
+      <types1:EntryId>eCFmVSciY3AxtPk-gt-8370700-2023-08-07T03:00:10.673Z::pd.xml</types1:EntryId>
+      <types1:Name>prc-Split-Repo-Deployment</types1:Name>
+      <types1:ParentFlowIds>lCYAOTMneBjrabc-gt-8214173-2023-08-07T01:29:45.186Z::pd.xml</types1:ParentFlowIds>
+      <types1:MimeType>application/xml+process</types1:MimeType>
+      <types1:Description/>
+      <types1:AppliesTo/>
+      <types1:Tags>.agent:Main Windows Secure Agent,.anonymous</types1:Tags>
+      <types1:VersionLabel>1.0</types1:VersionLabel>
+      <types1:State>CURRENT</types1:State>
+      <types1:ProcessGroup/>
+      <types1:CreatedBy>jbowring@informatica.com.cdpapj</types1:CreatedBy>
+      <types1:CreationDate>2023-08-07T03:00:11Z</types1:CreationDate>
+      <types1:ModifiedBy>jbowring@informatica.com.cdpapj</types1:ModifiedBy>
+      <types1:ModificationDate>2023-08-07T03:12:01Z</types1:ModificationDate>
+      <types1:PublicationStatus>published</types1:PublicationStatus>
+      <types1:PublishedBy>jbowring@informatica.com.cdpapj</types1:PublishedBy>
+      <types1:PublicationDate>2023-08-07T03:12:17Z</types1:PublicationDate>
+      <types1:PublishedContributionId>project:/spi.prc-Split-Repo-Deployment/prc-Split-Repo-Deployment.pd.xml</types1:PublishedContributionId>
+      <types1:AutosaveExists>false</types1:AutosaveExists>
+      <types1:Entry>
+         <process xmlns="http://schemas.active-endpoints.com/appmodules/screenflow/2010/10/avosScreenflow.xsd"
+                  xmlns:tfm="http://schemas.active-endpoints.com/appmodules/screenflow/2021/04/taskflowModel.xsd"
+                  xmlns:list="urn:activevos:spi:list:functions"
+                  displayName="prc-Split-Repo-Deployment"
+                  name="prc-Split-Repo-Deployment"
+                  overrideAPIName="false">
+            <parameterSet xmlns="http://schemas.active-endpoints.com/appmodules/screenflow/2021/04/taskflowModel.xsd"/>
+            <appliesTo/>
+            <description/>
+            <tags>.agent:Main Windows Secure Agent,.anonymous</tags>
+            <generator>Informatica Process Designer 11</generator>
+            <input>
+               <parameter description="" name="Event" required="true" type="reference">
+                  <options>
+                     <option name="referenceTo">$po:$any</option>
+                     <option name="required">false</option>
+                     <option name="isCopy">true</option>
+                  </options>
+               </parameter>
+            </input>
+            <tempFields>
+               <field description="" name="CommitHash" type="string">
+                  <options>
+                     <option name="required">false</option>
+                  </options>
+               </field>
+               <field description="" name="FolderPath" type="string">
+                  <options>
+                     <option name="required">false</option>
+                  </options>
+               </field>
+            </tempFields>
+            <notes/>
+            <deployment skipIfRunning="false" suspendOnFault="false" tracingLevel="verbose">
+               <targetLocation>Main Windows Secure Agent</targetLocation>
+               <rest>
+                  <allowAnonymousAccess/>
+               </rest>
+            </deployment>
+            <flow id="a">
+               <start id="b">
+                  <link id="ll0aax21" targetId="ll0aax20"/>
+               </start>
+               <assignment id="ll0aax20">
+                  <title>Parse the event</title>
+                  <operation source="formula" to="temp.CommitHash">
+                     <expression language="XQuery">$input.Event//commits/id/text()</expression>
+                  </operation>
+                  <operation source="formula" to="temp.FolderPath">
+                     <expression language="XQuery">let $actions := ($input.Event//commits/added[string-length(.)&gt;0], $input.Event//commits/modified[string-length(.)&gt;0], $input.Event//commits/removed[string-length(.)&gt;0] )
+
+let $folder := if(contains($actions[1],'/')) then (replace($actions[1], '^(.*)/[^/]+$', '$1')) else ('.')
+
+return $folder</expression>
+                  </operation>
+                  <link id="ll0aax22" targetId="c"/>
+               </assignment>
+               <end id="c"/>
+            </flow>
+         </process>
+      </types1:Entry>
+      <types1:GUID>2q4E1N834shkJYzgdtMpyl</types1:GUID>
+      <types1:DisplayName>prc-Split-Repo-Deployment</types1:DisplayName>
+   </types1:Item>
+   <types1:CurrentServerDateTime>2023-08-07T03:12:51.749Z</types1:CurrentServerDateTime>
+</aetgt:getResponse>
